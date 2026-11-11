@@ -1,3 +1,20 @@
+h1 {
+    text-align: center;
+}
+
+body{
+    text-align: center;
+    background-color: #121212;
+    color: #f5f5f5;
+}
+
 p {
-    color: blue;
+    display: inline-block;
+    border: 1px solid #f5f5f5;
+    padding: 10px;
+}
+
+img {
+    display: block;
+    margin: 0 auto;
 }
