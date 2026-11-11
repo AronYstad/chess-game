@@ -1,5 +1,6 @@
 h1 {
     text-align: center;
+    font-size: 3em;
 }
 
 body{
@@ -10,7 +11,8 @@ body{
 
 p {
     display: inline-block;
-    border: 1px solid #f5f5f5;
+    font-size: 2em;
+    border: 2px solid #f5f5f5;
     padding: 10px;
 }
 
