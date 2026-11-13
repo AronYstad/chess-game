@@ -14,14 +14,14 @@
 // bq = black queen
 // bk = black king
 
-const board = [[0,0,0,0,0,0,0,0],
-               [0,0,0,"wp",0,0,0,0],
-               [0,0,0,0,0,0,0,0],
-               [0,0,0,0,"bp",0,0,0],
+const board = [["wr",0,0,0,0,0,0,"wr"],
+               ["wp","wp","wp","wp","wp","wp","wp","wp"],
                [0,0,0,0,0,0,0,0],
                [0,0,0,0,0,0,0,0],
                [0,0,0,0,0,0,0,0],
-               [0,0,0,0,0,0,0,0]];
+               [0,0,0,0,0,0,0,0],
+               ["bp","bp","bp","bp","bp","bp","bp","bp"],
+               ["br",0,0,0,0,0,0,"br"]];
 
 const enPassant = [[0,0,0,0,0,0,0,0],
                    [0,0,0,0,0,0,0,0],
@@ -81,6 +81,122 @@ function legalMoves(y,x) {
             moves.push([x+1,y-1]);
         }
     }
+    else if(piece === "wr") {
+        for(let i = 1; i < 8; i++) {
+            if(y+i < 8) {
+                if(board[y+i][x] === 0) {
+                    moves.push([x,y+i]);
+                }
+                else if(board[y+i][x][0] === "b") {
+                    moves.push([x,y+i]);
+                    break;
+                }
+                else {
+                    break;
+                }
+            }
+        }
+        for(let i = 1; i < 8; i++) {
+            if(y-i >= 0) {
+                if(board[y-i][x] === 0) {
+                    moves.push([x,y-i]);
+                }
+                else if(board[y-i][x][0] === "b") {
+                    moves.push([x,y-i]);
+                    break;
+                }
+                else {
+                    break;
+                }
+            }
+        }
+        for(let i = 1; i < 8; i++) {
+            if(x+i < 8) {
+                if(board[y][x+i] === 0) {
+                    moves.push([x+i,y]);
+                }
+                else if(board[y][x+i][0] === "b") {
+                    moves.push([x+i,y]);
+                    break;
+                }
+                else {
+                    break;
+                }
+            }
+        }
+        for(let i = 1; i < 8; i++) {
+            if(x-i >= 0) {
+                if(board[y][x-i] === 0) {
+                    moves.push([x-i,y]);
+                }
+                else if(board[y][x-i][0] === "b") {
+                    moves.push([x-i,y]);
+                    break;
+                }
+                else {
+                    break;
+                }
+            }
+        }
+    }
+    else if(piece === "br") {
+        for(let i = 1; i < 8; i++) {
+            if(y+i < 8) {
+                if(board[y+i][x] === 0) {
+                    moves.push([x,y+i]);
+                }
+                else if(board[y+i][x][0] === "w") {
+                    moves.push([x,y+i]);
+                    break;
+                }
+                else {
+                    break;
+                }
+            }
+        }
+        for(let i = 1; i < 8; i++) {
+            if(y-i >= 0) {
+                if(board[y-i][x] === 0) {
+                    moves.push([x,y-i]);
+                }
+                else if(board[y-i][x][0] === "w") {
+                    moves.push([x,y-i]);
+                    break;
+                }
+                else {
+                    break;
+                }
+            }
+        }
+        for(let i = 1; i < 8; i++) {
+            if(x+i < 8) {
+                if(board[y][x+i] === 0) {
+                    moves.push([x+i,y]);
+                }
+                else if(board[y][x+i][0] === "w") {
+                    moves.push([x+i,y]);
+                    break;
+                }
+                else {
+                    break;
+                }
+            }
+        }
+        for(let i = 1; i < 8; i++) {
+            if(x-i >= 0) {
+                if(board[y][x-i] === 0) {
+                    moves.push([x-i,y]);
+                }
+                else if(board[y][x-i][0] === "w") {
+                    moves.push([x-i,y]);
+                    break;
+                }
+                else {
+                    break;
+                }
+            }
+        }
+    }
     return moves;
 }
 
@@ -91,13 +207,11 @@ function movePiece(fromY, fromX, toY, toX) {
     if(board[fromY][fromX] === "bp" && enPassant[toY][toX] === "w") {
         board[toY+1][toX] = 0;
     }
-    if(board[fromY][fromX] === "wp" && fromY > 0 && enPassant[fromY-1][fromX] === "w") {
-        enPassant[fromY-1][fromX] = 0;
+    for(let y = 0; y < 8; y++) {
+        for(let x = 0; x < 8; x++) {
+            enPassant[y][x] = 0;
+        }
     }
-    if(board[fromY][fromX] === "bp" && fromY < 7 && enPassant[fromY+1][fromX] === "b") {
-        enPassant[fromY+1][fromX] = 0;
-    }
-    enPassant[toY][toX] = 0;
 
     board[toY][toX] = board[fromY][fromX];
     board[fromY][fromX] = 0;
