@@ -91,6 +91,12 @@ function movePiece(fromY, fromX, toY, toX) {
     if(board[fromY][fromX] === "bp" && enPassant[toY][toX] === "w") {
         board[toY+1][toX] = 0;
     }
+    if(board[fromY][fromX] === "wp" && fromY > 0 && enPassant[fromY-1][fromX] === "w") {
+        enPassant[fromY-1][fromX] = 0;
+    }
+    if(board[fromY][fromX] === "bp" && fromY < 7 && enPassant[fromY+1][fromX] === "b") {
+        enPassant[fromY+1][fromX] = 0;
+    }
     enPassant[toY][toX] = 0;
 
     board[toY][toX] = board[fromY][fromX];
@@ -118,11 +124,17 @@ function renderBoard() {
             } else {
                 square.classList.add("dark");
             }
+            square.addEventListener("click", () => {
+                for (const dot of document.querySelectorAll(".dot")) {
+                    dot.remove();
+                }
+            });
             if(board[y][x] !== 0) {
                 const piece = document.createElement("img");
                 piece.src = `./images/${board[y][x]}.svg`;
                 piece.classList.add("piece");
                 piece.addEventListener("click", () => {
+                    event.stopPropagation();
                     console.log(`Clicked on piece at (${x}, ${y})`);
                     for (const dot of document.querySelectorAll(".dot")) {
                         dot.remove();
@@ -135,6 +147,7 @@ function renderBoard() {
                         dot.src = "./images/dot.png";
                         dot.classList.add("dot");
                         dot.addEventListener("click", () => {
+                            event.stopPropagation();
                             movePiece(y, x, moveY, moveX);
                             renderBoard();
                         });
